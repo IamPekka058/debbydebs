@@ -93,7 +93,7 @@ class DatabaseHandler {
     );
   }
 
-  Future<void> deleteDebt(String id) async {
+  Future<void> deleteDebt(int id) async {
     checkDatabase();
     await _database?.delete('debts', where: 'id = ?', whereArgs: [id]);
   }

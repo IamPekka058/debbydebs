@@ -1,5 +1,5 @@
 class Debt {
-  String id;
+  int id;
   String name;
   String description;
   int contactId;

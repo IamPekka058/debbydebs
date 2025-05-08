@@ -38,7 +38,7 @@ android {
     }
     signingConfigs {
         create("release") {
-            storeFile = file("key.jks").let { file(it) }
+            storeFile = file("key.jks")
             keyAlias = keystoreProperties["keyAlias"] as? String
             keyPassword = keystoreProperties["keyPassword"] as? String
             storePassword = keystoreProperties["storePassword"] as? String

@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../models/Contact.dart';
+import '../models/contact.dart';
 
 class DatabaseHandler {
   Database? _database;

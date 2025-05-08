@@ -8,7 +8,7 @@ class Contact {
     return {'id': id, 'name': name};
   }
 
-  Contact fromMap(Map<String, dynamic> map) {
+  factory Contact.fromMap(Map<String, dynamic> map) {
     return Contact(id: map['id'], name: map['name']);
   }
 }

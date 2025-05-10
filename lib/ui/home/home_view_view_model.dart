@@ -7,17 +7,19 @@ class HomeViewViewModel extends ChangeNotifier {
   List<Debt> get debts => _model.debts;
 
   HomeViewViewModel() {
+    _model.addListener(_onModelChanged);
     _model.getAllDebts();
+    notifyListeners();
+  }
+  void _onModelChanged() {
     notifyListeners();
   }
 
   void addDebt(Debt debt) {
     _model.addDebt(debt);
-    notifyListeners();
   }
 
   void removeDebt(Debt debt) {
     _model.removeDebt(debt);
-    notifyListeners();
   }
 }

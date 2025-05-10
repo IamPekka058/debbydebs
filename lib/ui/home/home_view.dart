@@ -1,4 +1,5 @@
-import 'package:debbydebs/core/models/debt.dart';
+import 'package:debbydebs/ui/forms/debt_creation/debt_creation_screen.dart';
+import 'package:debbydebs/ui/home/_widgets/debt_list_tile.dart';
 import 'package:debbydebs/ui/home/home_view_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,37 +15,32 @@ class HomeView extends StatelessWidget {
         builder: (context, model, child) {
           return Scaffold(
             floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
+              child: Icon(Icons.add, color: Colors.white),
               onPressed:
-                  () => model.addDebt(
-                    Debt(
-                      id: 1,
-                      name: "Test",
-                      description: "Test Debt to test ui",
-                      contactId: 0,
-                      amount: 10.00,
-                      isPaid: false,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DebtCreationScreen(),
                     ),
                   ),
             ),
             body: Column(
               children: [
-                Text("Debts:"),
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: model.debts.length,
                     itemBuilder: (context, index) {
                       final debt = model.debts[index];
-                      return ListTile(
-                        title: Text(debt.name),
-                        subtitle: Text(debt.amount.toString()),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            model.removeDebt(debt);
-                          },
-                        ),
+                      return DebtListTile(
+                        id: debt.id,
+                        name: debt.name,
+                        description: debt.description,
+                        contactId: debt.contactId,
+                        amount: debt.amount,
+                        isPaid: debt.isPaid,
+                        onTap: (int id) => model.removeDebt(debt),
+                        onDelete: (int id) => model.removeDebt(debt),
                       );
                     },
                   ),

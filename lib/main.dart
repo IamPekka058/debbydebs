@@ -1,3 +1,4 @@
+import 'package:debbydebs/core/models/contact.dart';
 import 'package:debbydebs/core/theme/app_color.dart';
 import 'package:debbydebs/ui/home/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'core/persistence/database_handler.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   DatabaseHandler().initializeDatabase();
+  DatabaseHandler().insertContact(Contact(id: 1, name: "Michi"));
   runApp(const DebbyDebs());
 }
 

@@ -37,27 +37,61 @@ class _DebtListTileState extends State<DebtListTile> {
       create: (_) => DebtListTileViewModel(contactId: widget.contactId),
       child: Consumer<DebtListTileViewModel>(
         builder: (context, viewModel, child) {
-          return ListTile(
-            textColor: Colors.black,
-            leading: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Initicon(text: viewModel.contactName, size: 30),
-                Text(viewModel.contactName),
-              ],
-            ),
-            title: Text(widget.name),
-            subtitle: Text(widget.description),
-            trailing: Text(
-              widget.amount.toString(),
-              style: TextStyle(
-                fontSize: 20,
-                color: widget.amount > 0 ? Colors.green : Colors.red,
+          return Column(
+            children: [
+              ListTile(
+                textColor: Colors.black,
+                leading: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Initicon(text: viewModel.contactName, size: 30),
+                    Text(viewModel.contactName),
+                  ],
+                ),
+                title: Text(widget.name),
+                subtitle: Text(widget.description),
+                trailing: Text(
+                  "${widget.amount.toStringAsFixed(2)} €",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: widget.amount > 0 ? Colors.green : Colors.red,
+                  ),
+                ),
+                onTap: viewModel.toggleButtons,
               ),
-            ),
-            onTap: () {
-              widget.onTap(widget.id);
-            },
+              if (viewModel.showButtons)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FilledButton(
+                      onPressed: () => widget.onDelete(widget.id),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.paid, color: Colors.white),
+                          Text(
+                            "Mark as Paid",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                    FilledButton(
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(Colors.red),
+                      ),
+                      onPressed: () => widget.onDelete(widget.id),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(Icons.delete, color: Colors.white),
+                          Text("Delete", style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+            ],
           );
         },
       ),
@@ -67,10 +101,17 @@ class _DebtListTileState extends State<DebtListTile> {
 
 class DebtListTileViewModel extends ChangeNotifier {
   final int contactId;
+  bool showButtons = false;
+
   DatabaseHandler databaseHandler = DatabaseHandler();
   String contactName = "";
   DebtListTileViewModel({required this.contactId}) {
     getContactName();
+  }
+
+  void toggleButtons() {
+    showButtons = !showButtons;
+    notifyListeners();
   }
 
   void getContactName() async {

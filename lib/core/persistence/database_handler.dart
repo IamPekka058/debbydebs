@@ -16,6 +16,7 @@ class DatabaseHandler {
 
   Future<void> initializeDatabase() async {
     _database = await openDatabase(
+      version: 1,
       join(await getDatabasesPath(), 'app.db'),
       onCreate: (db, version) {
         db.execute(

@@ -8,51 +8,52 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text("Debts:"),
-        ChangeNotifierProvider(
-          create: (_) => HomeViewViewModel(),
-          child: Consumer<HomeViewViewModel>(
-            builder: (context, model, child) {
-              return Column(
-                children: [
-                  FilledButton(
-                    onPressed:
-                        () => model.addDebt(
-                          Debt(
-                            id: 1,
-                            name: "Hola",
-                            description: "description",
-                            contactId: 1,
-                            amount: 10.50,
-                            isPaid: false,
-                          ),
-                        ),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: model.debts.length,
-                      itemBuilder: (context, index) {
-                        final debt = model.debts[index];
-                        return ListTile(
-                          title: Text(debt.name),
-                          subtitle: Text(debt.amount.toString()),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              model.removeDebt(debt);
-                            },
-                          ),
-                        );
-                      },
+    return ChangeNotifierProvider(
+      create: (_) => HomeViewViewModel(),
+      child: Consumer<HomeViewViewModel>(
+        builder: (context, model, child) {
+          return Scaffold(
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed:
+                  () => model.addDebt(
+                    Debt(
+                      id: 1,
+                      name: "Test",
+                      description: "Test Debt to test ui",
+                      contactId: 0,
+                      amount: 10.00,
+                      isPaid: false,
                     ),
                   ),
-                ],
-              );
-            },
-          ),
-        ),
-      ],
+            ),
+            body: Column(
+              children: [
+                Text("Debts:"),
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: model.debts.length,
+                    itemBuilder: (context, index) {
+                      final debt = model.debts[index];
+                      return ListTile(
+                        title: Text(debt.name),
+                        subtitle: Text(debt.amount.toString()),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            model.removeDebt(debt);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

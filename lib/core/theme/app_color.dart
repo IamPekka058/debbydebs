@@ -13,7 +13,7 @@ class AppColor {
     onError: Colors.white,
     surface: Colors.white,
     primaryFixed: Colors.grey[900]!,
-    onSurface: Colors.white,
+    onSurface: Colors.black,
     surfaceContainer: Colors.grey[800]!,
     secondaryContainer: Color(0xFF3e7472),
   );

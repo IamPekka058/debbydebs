@@ -36,11 +36,28 @@ class _ContactCreationTileState extends State<ContactCreationTile> {
               leading: Initicon(
                 text: model.contactName.isNotEmpty ? model.contactName : '?',
               ),
-              trailing: IconButton(
-                icon: const Icon(Icons.add),
+              trailing: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  elevation: 0,
+                ),
                 onPressed: () {
-                  model.createContact();
+                  if (model.isContactNameValid) {
+                    model.createContact();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please enter a valid contact name'),
+                      ),
+                    );
+                  }
                 },
+                label: Icon(
+                  Icons.add,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  size: 25,
+                ),
               ),
             ),
           );

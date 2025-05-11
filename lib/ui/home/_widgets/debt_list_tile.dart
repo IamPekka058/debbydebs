@@ -36,103 +36,127 @@ class _DebtListTileState extends State<DebtListTile> {
       create: (_) => DebtListTileViewModel(contactId: widget.contactId),
       child: Consumer<DebtListTileViewModel>(
         builder: (context, viewModel, child) {
-          return Card(
-            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            child: Column(
-              children: [
-                ListTile(
-                  textColor: Colors.black,
-                  leading: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      viewModel.showButtons
-                          ? const Icon(Icons.arrow_drop_up)
-                          : const Icon(Icons.arrow_drop_down),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Initicon(text: viewModel.contactName, size: 30),
-                          Text(viewModel.contactName),
-                        ],
-                      ),
-                    ],
+          return Dismissible(
+            direction: DismissDirection.endToStart,
+            background: Container(
+              color: Colors.green,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Text(
+                    "Mark as Paid",
+                    style: TextStyle(color: Colors.white),
                   ),
-                  title: Text(widget.name),
-                  subtitle: Text(widget.description),
-                  trailing: Text(
-                    "${widget.amount.toStringAsFixed(2)} €",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: widget.amount > 0 ? Colors.green : Colors.red,
-                    ),
-                  ),
-                  onTap: viewModel.toggleButtons,
-                ),
-                if (viewModel.showButtons) Divider(color: Colors.grey),
-                if (viewModel.showButtons)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  const SizedBox(width: 10),
+                  const Icon(Icons.check, color: Colors.white),
+                ],
+              ),
+            ),
+            onDismissed: (direction) => widget.onDelete(widget.id),
+            key: Key(widget.id.toString()),
+            child: Card(
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Column(
+                children: [
+                  ListTile(
+                    textColor: Colors.black,
+                    leading: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        FilledButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(
-                              Colors.green,
-                            ),
-                          ),
-                          onPressed: () => widget.onDelete(widget.id),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(Icons.paid, color: Colors.white),
-                              Text(
-                                "Mark as Paid",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                        FilledButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(
-                              Colors.orange,
-                            ),
-                          ),
-                          onPressed: () => throw UnimplementedError(),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(Icons.edit, color: Colors.white),
-                              Text(
-                                "Edit",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                        FilledButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(
-                              Colors.red,
-                            ),
-                          ),
-                          onPressed: () => widget.onDelete(widget.id),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(Icons.delete, color: Colors.white),
-                              Text(
-                                "Delete",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
+                        viewModel.showButtons
+                            ? const Icon(Icons.arrow_drop_up)
+                            : const Icon(Icons.arrow_drop_down),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Initicon(text: viewModel.contactName, size: 30),
+                            Text(viewModel.contactName),
+                          ],
                         ),
                       ],
                     ),
+                    title: Text(widget.name),
+                    subtitle:
+                        widget.description.isNotEmpty
+                            ? Text(widget.description)
+                            : null,
+                    trailing: Text(
+                      "${widget.amount.toStringAsFixed(2)} €",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: widget.amount > 0 ? Colors.green : Colors.red,
+                      ),
+                    ),
+                    onTap: viewModel.toggleButtons,
                   ),
-              ],
+                  if (viewModel.showButtons) Divider(color: Colors.grey),
+                  if (viewModel.showButtons)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          FilledButton(
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all(
+                                Colors.green,
+                              ),
+                            ),
+                            onPressed: () => widget.onDelete(widget.id),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.paid, color: Colors.white),
+                                Text(
+                                  "Mark as Paid",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          FilledButton(
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all(
+                                Colors.orange,
+                              ),
+                            ),
+                            onPressed: () => throw UnimplementedError(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.edit, color: Colors.white),
+                                Text(
+                                  "Edit",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          FilledButton(
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all(
+                                Colors.red,
+                              ),
+                            ),
+                            onPressed: () => widget.onDelete(widget.id),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(Icons.delete, color: Colors.white),
+                                Text(
+                                  "Delete",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
             ),
           );
         },

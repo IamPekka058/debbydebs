@@ -46,20 +46,12 @@ class DatabaseHandler extends ChangeNotifier {
   }
 
   Future<void> insertDebtDTO(DebtDTO debt) async {
-    print("Insert Debt: ${debt.toMap()}");
-
     await checkDatabase();
     await _database?.insert(
       'debts',
       debt.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-
-    final result = await getAllDebts();
-
-    for (var item in result) {
-      print("Debt: ${item.toMap()}");
-    }
 
     notifyListeners();
   }

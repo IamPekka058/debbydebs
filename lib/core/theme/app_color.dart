@@ -5,7 +5,7 @@ class AppColor {
   static final ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: Color(0xFF62b4b1),
-    onPrimary: Color(0xFF212121),
+    onPrimary: Colors.white,
     primaryContainer: Color(0xFF00BCD4),
     secondary: Color(0xFF00BCD4),
     onSecondary: Colors.white,

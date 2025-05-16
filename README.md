@@ -1,6 +1,6 @@
 # DebbyDebs
 
-# IMPORTANT:
+# IMPORTANT
 > This is a work in progress. The app is not yet functional and is still being developed.
 
 ## What is Debby Debs?

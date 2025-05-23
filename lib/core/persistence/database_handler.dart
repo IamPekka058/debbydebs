@@ -105,6 +105,11 @@ class DatabaseHandler extends ChangeNotifier {
     );
   }
 
+  Future<void> deleteContactById(int id) async {
+    await checkDatabase();
+    await _database?.delete('contacts', where: 'id = ?', whereArgs: [id]);
+  }
+
   Future<bool> safeToDeleteContact(int contactId) async {
     await checkDatabase();
     final List<Map<String, dynamic>> maps = await database!.query(

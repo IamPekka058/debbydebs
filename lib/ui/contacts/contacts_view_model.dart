@@ -27,4 +27,19 @@ class ContactViewModel extends ChangeNotifier {
     _contacts = contacts;
     notifyListeners();
   }
+
+  /// Tries to delete a contact by its ID.
+  ///
+  /// Returns true if the contact was deleted successfully, false otherwise.
+  Future<bool> deleteContactById(int contactId) async {
+    bool unsafeToDelete = true;
+    if (await _databaseHandler.safeToDeleteContact(contactId)) {
+      _contacts.removeWhere((contact) => contact.id == contactId);
+      _databaseHandler.deleteContactById(contactId);
+      unsafeToDelete = true;
+    }
+
+    notifyListeners();
+    return unsafeToDelete;
+  }
 }

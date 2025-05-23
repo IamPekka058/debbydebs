@@ -1,4 +1,3 @@
-import 'package:debbydebs/core/persistence/database_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_initicon/flutter_initicon.dart';
 import 'package:provider/provider.dart';
@@ -38,16 +37,18 @@ class _ContactListTileState extends State<ContactListTile> {
                   leading: Initicon(text: widget.contactName, size: 30),
 
                   title: Text(widget.contactName),
+                  subtitle: Text(widget.contactId.toString()),
                   trailing:
                       viewModel.showButtons
                           ? Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               FilledButton(
-                                onPressed: widget.onEdit(widget.contactId),
+                                onPressed:
+                                    () => widget.onEdit(widget.contactId),
                                 style: ButtonStyle(
                                   backgroundColor: WidgetStateProperty.all(
-                                    Colors.orange,
+                                    Colors.grey,
                                   ),
                                 ),
                                 child: Row(
@@ -63,7 +64,8 @@ class _ContactListTileState extends State<ContactListTile> {
                               ),
                               const SizedBox(width: 10),
                               FilledButton(
-                                onPressed: widget.onEdit(widget.contactId),
+                                onPressed:
+                                    () => widget.onDelete(widget.contactId),
                                 style: ButtonStyle(
                                   backgroundColor: WidgetStateProperty.all(
                                     Colors.red,
@@ -94,8 +96,6 @@ class _ContactListTileState extends State<ContactListTile> {
 }
 
 class ContactListTileViewModel extends ChangeNotifier {
-  DatabaseHandler databaseHandler = DatabaseHandler();
-
   bool showButtons = false;
 
   void toggleButtons() {

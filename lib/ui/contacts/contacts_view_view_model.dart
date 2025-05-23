@@ -6,10 +6,16 @@ class ContactViewViewModel extends ChangeNotifier {
   final ContactViewModel _contactViewModel = ContactViewModel();
 
   List<Contact> get contacts => _contactViewModel.contacts;
+  bool _errorOccurred = false;
+
+  int get contactsCount => _contactViewModel.contacts.length;
+  bool get errorOccurred => _errorOccurred;
 
   ContactViewViewModel() {
     _contactViewModel.addListener(() {
-      notifyListeners();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
     });
     _contactViewModel.getContacts();
   }
@@ -23,5 +29,21 @@ class ContactViewViewModel extends ChangeNotifier {
 
   void getContacts() {
     _contactViewModel.getContacts();
+  }
+
+  Future<void> deleteContact(int contactId) async {
+    _errorOccurred = await _contactViewModel.deleteContactById(contactId);
+    notifyListeners();
+
+    if (_errorOccurred) {
+      Future.delayed(Duration(seconds: 5)).then((_) {
+        resetError();
+      });
+    }
+  }
+
+  void resetError() {
+    _errorOccurred = false;
+    notifyListeners();
   }
 }

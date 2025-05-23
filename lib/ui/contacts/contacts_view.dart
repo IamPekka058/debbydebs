@@ -13,11 +13,24 @@ class ContactsView extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => ContactViewViewModel(),
       child: Consumer<ContactViewViewModel>(
-        builder: (context, model, value) {
+        builder: (context, viewModel, value) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (viewModel.errorOccurred) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'You cannot delete this contact because it is linked to a debt.',
+                  ),
+                  backgroundColor: Colors.red,
+                ),
+              );
+              viewModel.resetError();
+            }
+          });
           return Scaffold(
             body: Column(
               children: [
-                ContactCreationTile(onCreate: model.getContacts),
+                ContactCreationTile(onCreate: viewModel.getContacts),
                 Divider(
                   color: Theme.of(context).colorScheme.primary,
                   thickness: 5,
@@ -25,14 +38,14 @@ class ContactsView extends StatelessWidget {
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: model.contacts.length,
+                    itemCount: viewModel.contactsCount,
                     itemBuilder: (context, index) {
-                      final contact = model.contacts[index];
+                      final contact = viewModel.contacts[index];
                       return ContactListTile(
                         contactId: contact.id,
                         contactName: contact.name,
                         onEdit: (int id) {},
-                        onDelete: (int id) {},
+                        onDelete: (int id) => viewModel.deleteContact(id),
                       );
                     },
                   ),

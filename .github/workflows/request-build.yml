@@ -90,7 +90,7 @@ jobs:
           path: app/build/app/outputs/bundle/release/Debby_${{ steps.version_name.outputs.version_name }}.aab
 
       - name: Comment build results
-        uses: RubberDuckCrew/artifact2pr@main
+        uses: RubberDuckCrew/artifact2pr@v0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-if-no-artifacts: true

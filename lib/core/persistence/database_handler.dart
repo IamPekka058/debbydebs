@@ -1,4 +1,5 @@
 import "package:debbydebs/core/models/contact.dart";
+import "package:debbydebs/core/models/contact_dto.dart";
 import "package:debbydebs/core/models/debt.dart";
 import "package:debbydebs/core/models/debt_dto.dart";
 import "package:flutter/material.dart";
@@ -81,6 +82,10 @@ class DatabaseHandler extends ChangeNotifier {
   }
 
   Future<void> insertContact(final Contact contact) async {
+    insertContactDTO(ContactDTO(name: contact.name));
+  }
+
+  Future<void> insertContactDTO(final ContactDTO contact) async {
     await checkDatabase();
     await _database?.insert(
       "contacts",
@@ -96,6 +101,21 @@ class DatabaseHandler extends ChangeNotifier {
       where: "id = ?",
       whereArgs: [contact.id],
     );
+  }
+
+  Future<void> deleteContactById(final int id) async {
+    await checkDatabase();
+    await _database?.delete("contacts", where: "id = ?", whereArgs: [id]);
+  }
+
+  Future<bool> safeToDeleteContact(final int contactId) async {
+    await checkDatabase();
+    final List<Map<String, dynamic>> maps = await database!.query(
+      "debts",
+      where: "contactId = ?",
+      whereArgs: [contactId],
+    );
+    return maps.isEmpty;
   }
 
   Future<List<Contact>> getAllContacts() async {

@@ -82,6 +82,7 @@ jobs:
         run: flutter pub get
 
       - name: Set up keystore
+        working-directory: .
         run: |
           PROPERTIES_PATH="./app/android/key.properties"
           echo keyPassword=\${{ secrets.KEY_STORE }} > ${{env.PROPERTIES_PATH}}
@@ -92,6 +93,8 @@ jobs:
       - name: Set build options
         id: build_options
         run: |
+          SHA=${{ github.event.pull_request.head.sha || github.sha }}
+          SHORT_SHA=${SHA:0:7}
           VERSION_NAME="$(echo "$GITHUB_REF_NAME" | tr / _)_$SHORT_SHA"
           echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
           echo "build_args=--release --obfuscate --split-debug-info=build/app/symbols" >> $GITHUB_OUTPUT

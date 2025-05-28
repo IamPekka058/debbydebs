@@ -1,9 +1,22 @@
-import 'package:debbydebs/core/persistence/database_handler.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_initicon/flutter_initicon.dart';
-import 'package:provider/provider.dart';
+import "package:debbydebs/core/models/contact.dart";
+import "package:debbydebs/core/persistence/database_handler.dart";
+import "package:flutter/foundation.dart";
+import "package:flutter/material.dart";
+import "package:flutter_initicon/flutter_initicon.dart";
+import "package:provider/provider.dart";
 
 class DebtListTile extends StatefulWidget {
+  const DebtListTile({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.contactId,
+    required this.amount,
+    required this.isPaid,
+    required this.onTap,
+    required this.onDelete,
+    super.key,
+  });
   final int id;
   final String name;
   final String description;
@@ -13,48 +26,46 @@ class DebtListTile extends StatefulWidget {
   final Function(int id) onTap;
   final Function(int id) onDelete;
 
-  const DebtListTile({
-    super.key,
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.contactId,
-    required this.amount,
-    required this.isPaid,
-    required this.onTap,
-    required this.onDelete,
-  });
-
   @override
   State<DebtListTile> createState() => _DebtListTileState();
+
+  @override
+  void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(IntProperty("id", id))
+      ..add(StringProperty("name", name))
+      ..add(StringProperty("description", description))
+      ..add(IntProperty("contactId", contactId))
+      ..add(DoubleProperty("amount", amount))
+      ..add(DiagnosticsProperty<bool>("isPaid", isPaid))
+      ..add(ObjectFlagProperty<Function(int id)>.has("onTap", onTap))
+      ..add(ObjectFlagProperty<Function(int id)>.has("onDelete", onDelete));
+  }
 }
 
 class _DebtListTileState extends State<DebtListTile> {
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => DebtListTileViewModel(contactId: widget.contactId),
-      child: Consumer<DebtListTileViewModel>(
-        builder: (context, viewModel, child) {
-          return Dismissible(
+  Widget build(final BuildContext context) => ChangeNotifierProvider(
+    create: (_) => DebtListTileViewModel(contactId: widget.contactId),
+    child: Consumer<DebtListTileViewModel>(
+      builder:
+          (final context, final viewModel, final child) => Dismissible(
             direction: DismissDirection.endToStart,
             background: Container(
               color: Colors.green,
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text(
-                    "Mark as Paid",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(width: 10),
-                  const Icon(Icons.check, color: Colors.white),
+                  Text("Mark as Paid", style: TextStyle(color: Colors.white)),
+                  SizedBox(width: 10),
+                  Icon(Icons.check, color: Colors.white),
                 ],
               ),
             ),
-            onDismissed: (direction) => widget.onDelete(widget.id),
+            onDismissed: (final direction) => widget.onDelete(widget.id),
             key: Key(widget.id.toString()),
             child: Card(
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -65,9 +76,10 @@ class _DebtListTileState extends State<DebtListTile> {
                     leading: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        viewModel.showButtons
-                            ? const Icon(Icons.arrow_drop_up)
-                            : const Icon(Icons.arrow_drop_down),
+                        if (viewModel.showButtons)
+                          const Icon(Icons.arrow_drop_up)
+                        else
+                          const Icon(Icons.arrow_drop_down),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -91,10 +103,10 @@ class _DebtListTileState extends State<DebtListTile> {
                     ),
                     onTap: viewModel.toggleButtons,
                   ),
-                  if (viewModel.showButtons) Divider(color: Colors.grey),
+                  if (viewModel.showButtons) const Divider(color: Colors.grey),
                   if (viewModel.showButtons)
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -105,7 +117,7 @@ class _DebtListTileState extends State<DebtListTile> {
                               ),
                             ),
                             onPressed: () => widget.onDelete(widget.id),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Icon(Icons.paid, color: Colors.white),
@@ -123,7 +135,7 @@ class _DebtListTileState extends State<DebtListTile> {
                               ),
                             ),
                             onPressed: () => throw UnimplementedError(),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Icon(Icons.edit, color: Colors.white),
@@ -141,7 +153,7 @@ class _DebtListTileState extends State<DebtListTile> {
                               ),
                             ),
                             onPressed: () => widget.onDelete(widget.id),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Icon(Icons.delete, color: Colors.white),
@@ -158,30 +170,28 @@ class _DebtListTileState extends State<DebtListTile> {
                 ],
               ),
             ),
-          );
-        },
-      ),
-    );
-  }
+          ),
+    ),
+  );
 }
 
 class DebtListTileViewModel extends ChangeNotifier {
+  DebtListTileViewModel({required this.contactId}) {
+    getContactName();
+  }
   final int contactId;
   bool showButtons = false;
 
   DatabaseHandler databaseHandler = DatabaseHandler();
   String contactName = "";
-  DebtListTileViewModel({required this.contactId}) {
-    getContactName();
-  }
 
   void toggleButtons() {
     showButtons = !showButtons;
     notifyListeners();
   }
 
-  void getContactName() async {
-    final contact = await databaseHandler.getContactById(contactId);
+  Future<void> getContactName() async {
+    final Contact contact = await databaseHandler.getContactById(contactId);
     contactName = contact.name;
     notifyListeners();
   }

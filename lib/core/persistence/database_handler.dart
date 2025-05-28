@@ -5,25 +5,28 @@ import 'package:debbydebs/core/models/debt_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import "package:debbydebs/core/models/contact.dart";
+import "package:debbydebs/core/models/debt.dart";
+import "package:debbydebs/core/models/debt_dto.dart";
+import "package:flutter/material.dart";
+import "package:path/path.dart";
+import "package:sqflite/sqflite.dart";
 
 class DatabaseHandler extends ChangeNotifier {
+  factory DatabaseHandler() => _instance;
+
+  DatabaseHandler._internal();
   Database? _database;
 
   static final DatabaseHandler _instance = DatabaseHandler._internal();
-
-  DatabaseHandler._internal();
-
-  factory DatabaseHandler() {
-    return _instance;
-  }
 
   Database? get database => _database;
 
   Future<void> initializeDatabase() async {
     _database = await openDatabase(
       version: 1,
-      join(await getDatabasesPath(), 'app.db'),
-      onCreate: (db, version) {
+      join(await getDatabasesPath(), "app.db"),
+      onCreate: (final db, final version) {
         db.execute(
           "CREATE TABLE debts(id INTEGER PRIMARY KEY, name TEXT, description TEXT, contactId INTEGER, amount REAL, isPaid INTEGER)",
         );
@@ -34,7 +37,7 @@ class DatabaseHandler extends ChangeNotifier {
     );
   }
 
-  Future<void> insertDebt(Debt debt) async {
+  Future<void> insertDebt(final Debt debt) async {
     insertDebtDTO(
       DebtDTO(
         name: debt.name,
@@ -46,10 +49,10 @@ class DatabaseHandler extends ChangeNotifier {
     );
   }
 
-  Future<void> insertDebtDTO(DebtDTO debt) async {
+  Future<void> insertDebtDTO(final DebtDTO debt) async {
     await checkDatabase();
     await _database?.insert(
-      'debts',
+      "debts",
       debt.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -57,24 +60,25 @@ class DatabaseHandler extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteDebt(Debt debt) async {
+  Future<void> deleteDebt(final Debt debt) async {
     await checkDatabase();
-    await _database?.delete('debts', where: 'id = ?', whereArgs: [debt.id]);
+    await _database?.delete("debts", where: "id = ?", whereArgs: [debt.id]);
   }
 
   Future<List<Debt>> getAllDebts() async {
     await checkDatabase();
-    final List<Map<String, dynamic>> maps = await database!.query('debts');
-    return List.generate(maps.length, (i) {
-      return Debt(
-        id: maps[i]['id'],
-        name: maps[i]['name'],
-        description: maps[i]['description'],
-        contactId: maps[i]['contactId'],
-        amount: maps[i]['amount'],
-        isPaid: maps[i]['isPaid'] == 1,
-      );
-    });
+    final List<Map<String, dynamic>> maps = await database!.query("debts");
+    return List.generate(
+      maps.length,
+      (final i) => Debt(
+        id: maps[i]["id"],
+        name: maps[i]["name"],
+        description: maps[i]["description"],
+        contactId: maps[i]["contactId"],
+        amount: maps[i]["amount"],
+        isPaid: maps[i]["isPaid"] == 1,
+      ),
+    );
   }
 
   Future<void> checkDatabase() async {
@@ -83,6 +87,7 @@ class DatabaseHandler extends ChangeNotifier {
     }
   }
 
+  Future<void> insertContact(final Contact contact) async {
   Future<void> insertContact(Contact contact) async {
     insertContactDTO(ContactDTO(name: contact.name));
   }
@@ -90,17 +95,17 @@ class DatabaseHandler extends ChangeNotifier {
   Future<void> insertContactDTO(ContactDTO contact) async {
     await checkDatabase();
     await _database?.insert(
-      'contacts',
+      "contacts",
       contact.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<void> deleteContact(Contact contact) async {
+  Future<void> deleteContact(final Contact contact) async {
     await checkDatabase();
     await _database?.delete(
-      'contacts',
-      where: 'id = ?',
+      "contacts",
+      where: "id = ?",
       whereArgs: [contact.id],
     );
   }
@@ -122,24 +127,25 @@ class DatabaseHandler extends ChangeNotifier {
 
   Future<List<Contact>> getAllContacts() async {
     await checkDatabase();
-    final List<Map<String, dynamic>> maps = await database!.query('contacts');
-    return List.generate(maps.length, (i) {
-      return Contact(id: maps[i]['id'], name: maps[i]['name']);
-    });
+    final List<Map<String, dynamic>> maps = await database!.query("contacts");
+    return List.generate(
+      maps.length,
+      (final i) => Contact(id: maps[i]["id"], name: maps[i]["name"]),
+    );
   }
 
-  Future<Contact> getContactById(int id) async {
+  Future<Contact> getContactById(final int id) async {
     await checkDatabase();
 
     final List<Map<String, dynamic>> maps = await database!.query(
-      'contacts',
-      where: 'id = ?',
+      "contacts",
+      where: "id = ?",
       whereArgs: [id],
     );
     if (maps.isNotEmpty) {
       return Contact.fromMap(maps.first);
     } else {
-      throw Exception('Contact not found');
+      throw Exception("Contact not found");
     }
   }
 }

@@ -1,10 +1,4 @@
 class DebtDTO {
-  String name;
-  String description;
-  int contactId;
-  double amount;
-  bool isPaid;
-
   DebtDTO({
     required this.name,
     required this.description,
@@ -12,14 +6,17 @@ class DebtDTO {
     required this.amount,
     required this.isPaid,
   });
+  String name;
+  String description;
+  int contactId;
+  double amount;
+  bool isPaid;
 
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'description': description,
-      'contactId': contactId,
-      'amount': amount,
-      'isPaid': isPaid ? 1 : 0,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+    "name": name,
+    "description": description,
+    "contactId": contactId,
+    "amount": amount,
+    "isPaid": isPaid ? 1 : 0,
+  };
 }

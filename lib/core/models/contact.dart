@@ -1,14 +1,10 @@
 class Contact {
-  final int id;
-  final String name;
 
   Contact({required this.id, required this.name});
 
-  Map<String, dynamic> toMap() {
-    return {'id': id, 'name': name};
-  }
+  factory Contact.fromMap(final Map<String, dynamic> map) => Contact(id: map["id"], name: map["name"]);
+  final int id;
+  final String name;
 
-  factory Contact.fromMap(Map<String, dynamic> map) {
-    return Contact(id: map['id'], name: map['name']);
-  }
+  Map<String, dynamic> toMap() => {"id": id, "name": name};
 }

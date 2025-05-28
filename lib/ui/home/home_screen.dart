@@ -1,10 +1,9 @@
-import 'package:debbydebs/ui/_widgets/app_bar.dart';
-import 'package:debbydebs/ui/home/home_view.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../contacts/contacts_view.dart';
-import 'home_screen_view_model.dart';
+import "package:debbydebs/ui/_widgets/app_bar.dart";
+import "package:debbydebs/ui/contacts/contacts_view.dart";
+import "package:debbydebs/ui/home/home_screen_view_model.dart";
+import "package:debbydebs/ui/home/home_view.dart";
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,35 +14,31 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+  Widget build(final BuildContext context) => ChangeNotifierProvider(
       create: (_) => HomeScreenViewModel(),
       child: Consumer<HomeScreenViewModel>(
-        builder: (context, viewModel, child) {
-          return Scaffold(
-            appBar: DebbyAppBar(),
+        builder: (final context, final viewModel, final child) => Scaffold(
+            appBar: const DebbyAppBar(),
             body: switch (viewModel.selectedIndex) {
-              0 => HomeView(),
-              1 => ContactsView(),
-              _ => HomeView(),
+              0 => const HomeView(),
+              1 => const ContactsView(),
+              _ => const HomeView(),
             },
             bottomNavigationBar: NavigationBar(
-              destinations: [
-                const NavigationDestination(
+              destinations: const [
+                NavigationDestination(
                   icon: Icon(Icons.inbox),
                   label: "Home",
                 ),
-                const NavigationDestination(
+                NavigationDestination(
                   icon: Icon(Icons.settings),
                   label: "Contacts",
                 ),
               ],
-              onDestinationSelected: (index) => viewModel.updateIndex(index),
+              onDestinationSelected: viewModel.updateIndex,
               selectedIndex: viewModel.selectedIndex,
             ),
-          );
-        },
+          ),
       ),
     );
-  }
 }

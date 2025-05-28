@@ -1,26 +1,25 @@
-import 'package:debbydebs/ui/forms/debt_creation/debt_creation_screen.dart';
-import 'package:debbydebs/ui/home/_widgets/debt_list_tile.dart';
-import 'package:debbydebs/ui/home/home_view_view_model.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import "package:debbydebs/core/models/debt.dart";
+import "package:debbydebs/ui/forms/debt_creation/debt_creation_screen.dart";
+import "package:debbydebs/ui/home/_widgets/debt_list_tile.dart";
+import "package:debbydebs/ui/home/home_view_view_model.dart";
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+  Widget build(final BuildContext context) => ChangeNotifierProvider(
       create: (_) => HomeViewViewModel(),
       child: Consumer<HomeViewViewModel>(
-        builder: (context, model, child) {
-          return Scaffold(
+        builder: (final context, final model, final child) => Scaffold(
             floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add, color: Colors.white),
+              child: const Icon(Icons.add, color: Colors.white),
               onPressed:
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DebtCreationScreen(),
+                      builder: (final context) => DebtCreationScreen(),
                     ),
                   ),
             ),
@@ -30,8 +29,8 @@ class HomeView extends StatelessWidget {
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: model.debts.length,
-                    itemBuilder: (context, index) {
-                      final debt = model.debts[index];
+                    itemBuilder: (final context, final index) {
+                      final Debt debt = model.debts[index];
                       return DebtListTile(
                         id: debt.id,
                         name: debt.name,
@@ -39,17 +38,15 @@ class HomeView extends StatelessWidget {
                         contactId: debt.contactId,
                         amount: debt.amount,
                         isPaid: debt.isPaid,
-                        onTap: (int id) => model.removeDebt(debt),
-                        onDelete: (int id) => model.removeDebt(debt),
+                        onTap: (final id) => model.removeDebt(debt),
+                        onDelete: (final id) => model.removeDebt(debt),
                       );
                     },
                   ),
                 ),
               ],
             ),
-          );
-        },
+          ),
       ),
     );
-  }
 }

@@ -46,6 +46,7 @@ class _ContactCreationTileState extends State<ContactCreationTile> {
                   if (model.isContactNameValid) {
                     model.createContact();
                   } else {
+                    ScaffoldMessenger.of(context).clearSnackBars();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Please enter a valid contact name'),

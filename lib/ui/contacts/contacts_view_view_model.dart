@@ -8,6 +8,8 @@ class ContactViewViewModel extends ChangeNotifier {
   List<Contact> get contacts => _contactViewModel.contacts;
   bool _errorOccurred = false;
 
+  Contact? get selectedContact => _contactViewModel.selectedContact;
+
   int get contactsCount => _contactViewModel.contacts.length;
   bool get errorOccurred => _errorOccurred;
 
@@ -19,6 +21,11 @@ class ContactViewViewModel extends ChangeNotifier {
     });
     _contactViewModel.getContacts();
   }
+
+  void toggleContactSelection(Contact contact) {
+    _contactViewModel.toggleContactSelection(contact);
+  }
+
   void addContact(Contact contact) {
     _contactViewModel.addContact(contact);
   }

@@ -5,7 +5,19 @@ import 'package:flutter/material.dart';
 class ContactViewModel extends ChangeNotifier {
   List<Contact> _contacts = [];
   List<Contact> get contacts => _contacts;
+  Contact? _selectedContact;
+
+  Contact? get selectedContact => _selectedContact;
   final DatabaseHandler _databaseHandler = DatabaseHandler();
+
+  void toggleContactSelection(Contact contact) {
+    if (_selectedContact != null && _selectedContact!.id == contact.id) {
+      _selectedContact = null;
+    } else {
+      _selectedContact = contact;
+    }
+    notifyListeners();
+  }
 
   void addContact(Contact contact) {
     _contacts.add(contact);
@@ -30,13 +42,13 @@ class ContactViewModel extends ChangeNotifier {
 
   /// Tries to delete a contact by its ID.
   ///
-  /// Returns true if the contact was deleted successfully, false otherwise.
+  /// Returns `false` if the contact was deleted successfully, `true` otherwise.
   Future<bool> deleteContactById(int contactId) async {
     bool unsafeToDelete = true;
     if (await _databaseHandler.safeToDeleteContact(contactId)) {
       _contacts.removeWhere((contact) => contact.id == contactId);
       _databaseHandler.deleteContactById(contactId);
-      unsafeToDelete = true;
+      unsafeToDelete = false;
     }
 
     notifyListeners();

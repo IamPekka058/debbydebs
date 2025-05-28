@@ -1,6 +1,6 @@
-import 'package:debbydebs/core/models/contact.dart';
-import 'package:debbydebs/core/persistence/database_handler.dart';
-import 'package:flutter/material.dart';
+import "package:debbydebs/core/models/contact.dart";
+import "package:debbydebs/core/persistence/database_handler.dart";
+import "package:flutter/material.dart";
 
 class ContactViewModel extends ChangeNotifier {
   List<Contact> _contacts = [];
@@ -10,7 +10,7 @@ class ContactViewModel extends ChangeNotifier {
   Contact? get selectedContact => _selectedContact;
   final DatabaseHandler _databaseHandler = DatabaseHandler();
 
-  void toggleContactSelection(Contact contact) {
+  void toggleContactSelection(final Contact contact) {
     if (_selectedContact != null && _selectedContact!.id == contact.id) {
       _selectedContact = null;
     } else {
@@ -19,12 +19,12 @@ class ContactViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addContact(Contact contact) {
+  void addContact(final Contact contact) {
     _contacts.add(contact);
     notifyListeners();
   }
 
-  void removeContact(Contact contact) {
+  void removeContact(final Contact contact) {
     _contacts.remove(contact);
     notifyListeners();
   }
@@ -34,8 +34,8 @@ class ContactViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getContacts() async {
-    List<Contact> contacts = await _databaseHandler.getAllContacts();
+  Future<void> getContacts() async {
+    final List<Contact> contacts = await _databaseHandler.getAllContacts();
     _contacts = contacts;
     notifyListeners();
   }
@@ -43,10 +43,10 @@ class ContactViewModel extends ChangeNotifier {
   /// Tries to delete a contact by its ID.
   ///
   /// Returns `false` if the contact was deleted successfully, `true` otherwise.
-  Future<bool> deleteContactById(int contactId) async {
+  Future<bool> deleteContactById(final int contactId) async {
     bool unsafeToDelete = true;
     if (await _databaseHandler.safeToDeleteContact(contactId)) {
-      _contacts.removeWhere((contact) => contact.id == contactId);
+      _contacts.removeWhere((final contact) => contact.id == contactId);
       _databaseHandler.deleteContactById(contactId);
       unsafeToDelete = false;
     }

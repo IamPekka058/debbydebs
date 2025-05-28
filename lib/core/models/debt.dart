@@ -1,5 +1,4 @@
 class Debt {
-
   Debt({
     required this.id,
     required this.name,
@@ -10,13 +9,13 @@ class Debt {
   });
 
   factory Debt.fromMap(final Map<String, dynamic> map) => Debt(
-      id: map["id"],
-      name: map["name"],
-      description: map["description"],
-      contactId: map["contactId"],
-      amount: map["amount"],
-      isPaid: map["isPaid"] == 1,
-    );
+    id: map["id"],
+    name: map["name"],
+    description: map["description"],
+    contactId: map["contactId"],
+    amount: map["amount"],
+    isPaid: map["isPaid"] == 1,
+  );
   int id;
   String name;
   String description;
@@ -25,11 +24,11 @@ class Debt {
   bool isPaid;
 
   Map<String, dynamic> toMap() => {
-      "id": id,
-      "name": name,
-      "description": description,
-      "contactId": contactId,
-      "amount": amount,
-      "isPaid": isPaid ? 1 : 0,
-    };
+    "id": id,
+    "name": name,
+    "description": description,
+    "contactId": contactId,
+    "amount": amount,
+    "isPaid": isPaid ? 1 : 0,
+  };
 }

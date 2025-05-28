@@ -1,5 +1,4 @@
 class DebtDTO {
-
   DebtDTO({
     required this.name,
     required this.description,
@@ -14,10 +13,10 @@ class DebtDTO {
   bool isPaid;
 
   Map<String, dynamic> toMap() => {
-      "name": name,
-      "description": description,
-      "contactId": contactId,
-      "amount": amount,
-      "isPaid": isPaid ? 1 : 0,
-    };
+    "name": name,
+    "description": description,
+    "contactId": contactId,
+    "amount": amount,
+    "isPaid": isPaid ? 1 : 0,
+  };
 }

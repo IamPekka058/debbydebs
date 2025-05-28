@@ -15,9 +15,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(final BuildContext context) => ChangeNotifierProvider(
-      create: (_) => HomeScreenViewModel(),
-      child: Consumer<HomeScreenViewModel>(
-        builder: (final context, final viewModel, final child) => Scaffold(
+    create: (_) => HomeScreenViewModel(),
+    child: Consumer<HomeScreenViewModel>(
+      builder:
+          (final context, final viewModel, final child) => Scaffold(
             appBar: const DebbyAppBar(),
             body: switch (viewModel.selectedIndex) {
               0 => const HomeView(),
@@ -26,10 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             bottomNavigationBar: NavigationBar(
               destinations: const [
-                NavigationDestination(
-                  icon: Icon(Icons.inbox),
-                  label: "Home",
-                ),
+                NavigationDestination(icon: Icon(Icons.inbox), label: "Home"),
                 NavigationDestination(
                   icon: Icon(Icons.settings),
                   label: "Contacts",
@@ -39,6 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
               selectedIndex: viewModel.selectedIndex,
             ),
           ),
-      ),
-    );
+    ),
+  );
 }

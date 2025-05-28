@@ -10,9 +10,10 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => ChangeNotifierProvider(
-      create: (_) => HomeViewViewModel(),
-      child: Consumer<HomeViewViewModel>(
-        builder: (final context, final model, final child) => Scaffold(
+    create: (_) => HomeViewViewModel(),
+    child: Consumer<HomeViewViewModel>(
+      builder:
+          (final context, final model, final child) => Scaffold(
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.add, color: Colors.white),
               onPressed:
@@ -47,6 +48,6 @@ class HomeView extends StatelessWidget {
               ],
             ),
           ),
-      ),
-    );
+    ),
+  );
 }

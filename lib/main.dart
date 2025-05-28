@@ -16,8 +16,8 @@ class DebbyDebs extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => MaterialApp(
-      title: "Debby Debs",
-      theme: ThemeData.from(colorScheme: AppColor.colorScheme),
-      home: const HomeScreen(),
-    );
+    title: "Debby Debs",
+    theme: ThemeData.from(colorScheme: AppColor.colorScheme),
+    home: const HomeScreen(),
+  );
 }

@@ -83,9 +83,10 @@ jobs:
 
       - name: Set up keystore
         run: |
-          echo keyPassword=\${{ secrets.KEY_STORE }} >   ./app/android/key.properties
-          echo storePassword=\${{ secrets.KEY_PASSWORD }} >> ./app/android/key.properties
-          echo keyAlias=\${{ secrets.KEY_ALIAS }} >> ./app/android/key.properties
+          PROPERTIES_PATH="./app/android/key.properties"
+          echo keyPassword=\${{ secrets.KEY_STORE }} > ${{env.PROPERTIES_PATH}}
+          echo storePassword=\${{ secrets.KEY_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
+          echo keyAlias=\${{ secrets.KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
           echo "${{ secrets.KEYSTORE2 }}" | base64 --decode > app/android/app/key.jks
 
       - name: Set build options

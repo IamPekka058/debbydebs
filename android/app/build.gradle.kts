@@ -54,12 +54,12 @@ android {
     productFlavors {
         create("development") {
             dimension = "default"
-            applicationIdSuffix.set(".dev")
+            applicationIdSuffix = ".dev"
             resValue("string", "app_name", "DebbyDebs Dev")
         }
         create("staging") {
             dimension = "default"
-            applicationIdSuffix.set(".stg")
+            applicationIdSuffix = ".stg"
             resValue("string", "app_name", "DebbyDebs Test")
         }
         create("production") {

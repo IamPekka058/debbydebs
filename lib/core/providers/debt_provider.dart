@@ -27,5 +27,6 @@ class DebtProvider extends ChangeNotifier {
 
   Future<void> insertDebtDTO(final DebtDTO debt) async {
     await _debtDatabaseHandler.insertDebtDTO(debt);
+    notifyListeners();
   }
 }

@@ -41,12 +41,6 @@ class ContactViewViewModel extends ChangeNotifier {
   Future<void> deleteContact(final int contactId) async {
     _errorOccurred = await _contactViewModel.deleteContactById(contactId);
     notifyListeners();
-
-    if (_errorOccurred) {
-      Future.delayed(const Duration(seconds: 5)).then((_) {
-        resetError();
-      });
-    }
   }
 
   void resetError() {

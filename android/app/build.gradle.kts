@@ -54,19 +54,19 @@ android {
     productFlavors {
         create("development") {
             dimension = "default"
-            applicationIdSuffix = ".dev"
-            resValue "string", "app_name", "DebbyDebs Dev"
+            applicationIdSuffix.set(".dev")
+            resValue("string", "app_name", "DebbyDebs Dev")
         }
         create("staging") {
             dimension = "default"
-            applicationIdSuffix = ".stg"
-            resValue "string", "app_name", "DebbyDebs Test"
+            applicationIdSuffix.set(".stg")
+            resValue("string", "app_name", "DebbyDebs Test")
         }
         create("production") {
             dimension = "default"
-            resValue "string", "app_name", "DebbyDebs"
+            resValue("string", "app_name", "DebbyDebs")
         }
-    }
+}
 }
 
 flutter {

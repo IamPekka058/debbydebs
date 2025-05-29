@@ -1,6 +1,4 @@
-import "package:debbydebs/core/models/contact.dart";
 import "package:debbydebs/core/persistence/app_database.dart";
-import "package:debbydebs/core/providers/contact_provider.dart";
 import "package:debbydebs/core/theme/app_color.dart";
 import "package:debbydebs/ui/home/home_screen.dart";
 import "package:flutter/material.dart";
@@ -8,7 +6,6 @@ import "package:flutter/material.dart";
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   AppDatabase();
-  ContactProvider().insertContact(Contact(id: 1, name: "Michi"));
   runApp(const DebbyDebs());
 }
 

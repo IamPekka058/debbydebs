@@ -1,5 +1,5 @@
 import "package:debbydebs/core/models/contact_dto.dart";
-import "package:debbydebs/core/persistence/database_handler.dart";
+import "package:debbydebs/core/providers/contact_provider.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_initicon/flutter_initicon.dart";
@@ -88,7 +88,7 @@ class ContactCreationTileViewModel extends ChangeNotifier {
   String _contactName = "";
   TextEditingController controller;
   String get contactName => _contactName;
-  final DatabaseHandler _databaseHandler = DatabaseHandler();
+  final ContactProvider _contactProvider = ContactProvider();
   final Function() onCreate;
 
   set contactName(final String name) {
@@ -101,7 +101,7 @@ class ContactCreationTileViewModel extends ChangeNotifier {
   void createContact() {
     if (isContactNameValid) {
       final ContactDTO contact = ContactDTO(name: _contactName);
-      _databaseHandler.insertContactDTO(contact);
+      _contactProvider.insertContactDTO(contact);
       onCreate();
       controller.clear();
       _contactName = "";

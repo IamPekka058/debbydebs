@@ -1,6 +1,7 @@
 import "package:debbydebs/core/models/contact.dart";
 import "package:debbydebs/core/models/debt_dto.dart";
-import "package:debbydebs/core/persistence/database_handler.dart";
+import "package:debbydebs/core/providers/contact_provider.dart";
+import "package:debbydebs/core/providers/debt_provider.dart";
 import "package:debbydebs/ui/_widgets/app_bar.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -197,7 +198,7 @@ class DebtCreationScreenViewModel extends ChangeNotifier {
   int? selectedContact;
 
   Future<void> getContacts() async {
-    final List<Contact> contacts = await DatabaseHandler().getAllContacts();
+    final List<Contact> contacts = await ContactProvider().getAllContacts();
     for (final contact in contacts) {
       this.contacts.add(
         DropdownMenuItem(
@@ -236,7 +237,7 @@ class DebtCreationScreenViewModel extends ChangeNotifier {
       amount: amount,
       isPaid: false,
     );
-    DatabaseHandler().insertDebtDTO(debt);
+    DebtProvider().insertDebtDTO(debt);
     notifyListeners();
   }
 }

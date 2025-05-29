@@ -1,5 +1,5 @@
 import "package:debbydebs/core/models/contact.dart";
-import "package:debbydebs/core/persistence/database_handler.dart";
+import "package:debbydebs/core/providers/contact_provider.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_initicon/flutter_initicon.dart";
@@ -182,7 +182,7 @@ class DebtListTileViewModel extends ChangeNotifier {
   final int contactId;
   bool showButtons = false;
 
-  DatabaseHandler databaseHandler = DatabaseHandler();
+  final ContactProvider _contactProvider = ContactProvider();
   String contactName = "";
 
   void toggleButtons() {
@@ -191,7 +191,7 @@ class DebtListTileViewModel extends ChangeNotifier {
   }
 
   Future<void> getContactName() async {
-    final Contact contact = await databaseHandler.getContactById(contactId);
+    final Contact contact = await _contactProvider.getContactById(contactId);
     contactName = contact.name;
     notifyListeners();
   }

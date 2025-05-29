@@ -1,31 +1,33 @@
 import "package:debbydebs/core/models/contact.dart";
 import "package:debbydebs/core/models/debt.dart";
-import "package:debbydebs/core/persistence/database_handler.dart";
+import "package:debbydebs/core/providers/contact_provider.dart";
+import "package:debbydebs/core/providers/debt_provider.dart";
 import "package:flutter/cupertino.dart";
 
 class HomeViewModel extends ChangeNotifier {
   HomeViewModel() {
-    DatabaseHandler().addListener(getAllDebts);
+    DebtProvider().addListener(getAllDebts);
     getAllDebts();
   }
   final List<Debt> _debts = [];
   List<Debt> get debts => _debts;
-  final DatabaseHandler _databaseHandler = DatabaseHandler();
+  final DebtProvider _debtProvider = DebtProvider();
+  final ContactProvider _contactProvider = ContactProvider();
 
   void addDebt(final Debt debt) {
-    _databaseHandler.insertDebt(debt);
+    _debtProvider.insertDebt(debt);
     _debts.add(debt);
     notifyListeners();
   }
 
   void removeDebt(final Debt debt) {
-    _databaseHandler.deleteDebt(debt);
+    _debtProvider.deleteDebt(debt);
     _debts.remove(debt);
     notifyListeners();
   }
 
   Future<void> getAllDebts() async {
-    final List<Debt> debts = await _databaseHandler.getAllDebts();
+    final List<Debt> debts = await _debtProvider.getAllDebts();
     _debts
       ..clear()
       ..addAll(debts);
@@ -33,7 +35,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<String> getContactName(final int contactId) async {
-    final Contact contact = await _databaseHandler.getContactById(contactId);
+    final Contact contact = await _contactProvider.getContactById(contactId);
     return contact.name;
   }
 }

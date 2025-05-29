@@ -1,5 +1,5 @@
 import "package:debbydebs/core/models/contact.dart";
-import "package:debbydebs/core/persistence/database_handler.dart";
+import "package:debbydebs/core/providers/contact_provider.dart";
 import "package:flutter/material.dart";
 
 class ContactViewModel extends ChangeNotifier {
@@ -8,7 +8,8 @@ class ContactViewModel extends ChangeNotifier {
   Contact? _selectedContact;
 
   Contact? get selectedContact => _selectedContact;
-  final DatabaseHandler _databaseHandler = DatabaseHandler();
+
+  final ContactProvider _contactProvider = ContactProvider();
 
   void toggleContactSelection(final Contact contact) {
     if (_selectedContact != null && _selectedContact!.id == contact.id) {
@@ -35,7 +36,7 @@ class ContactViewModel extends ChangeNotifier {
   }
 
   Future<void> getContacts() async {
-    final List<Contact> contacts = await _databaseHandler.getAllContacts();
+    final List<Contact> contacts = await _contactProvider.getAllContacts();
     _contacts = contacts;
     notifyListeners();
   }
@@ -45,9 +46,9 @@ class ContactViewModel extends ChangeNotifier {
   /// Returns `false` if the contact was deleted successfully, `true` otherwise.
   Future<bool> deleteContactById(final int contactId) async {
     bool unsafeToDelete = true;
-    if (await _databaseHandler.safeToDeleteContact(contactId)) {
+    if (await _contactProvider.safeToDeleteContact(contactId)) {
       _contacts.removeWhere((final contact) => contact.id == contactId);
-      _databaseHandler.deleteContactById(contactId);
+      _contactProvider.deleteContactById(contactId);
       unsafeToDelete = false;
     }
 

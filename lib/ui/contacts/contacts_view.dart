@@ -26,7 +26,7 @@ class ContactsView extends StatelessWidget {
                 duration: Duration(seconds: 2),
               ),
             );
-            viewModel.resetError();
+            if (context.mounted) viewModel.resetError();
           }
         });
         return Scaffold(

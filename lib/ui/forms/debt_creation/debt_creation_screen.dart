@@ -102,7 +102,7 @@ class DebtCreationScreen extends StatelessWidget {
                               border: OutlineInputBorder(),
                             ),
                             hint: const Text("Select a friend who owes you"),
-                            value: model.selectedContact,
+                            initialValue: model.selectedContact,
                             items: model.contacts,
                             onChanged: model.selectContact,
                           ),

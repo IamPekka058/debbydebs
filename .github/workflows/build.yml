@@ -9,7 +9,7 @@ on:
 permissions:
   contents: write
 env:
-  FLUTTER_VERSION: "3.29.2"
+  FLUTTER_VERSION: "3.35.2"
   FLUTTER_CHANNEL: "stable"
   PROPERTIES_PATH: "./app/android/key.properties"
 

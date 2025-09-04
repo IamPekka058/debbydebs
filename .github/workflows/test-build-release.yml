@@ -2,13 +2,13 @@ name: Test, Build and Release
 
 on:
   push:
-    tags: [ 'v*' ]
+    tags: ["v*"]
   pull_request:
-    types: [ opened, labeled, synchronize ]
+    types: [opened, labeled, synchronize]
 
 env:
   FLUTTER_CHANNEL: stable
-  FLUTTER_VERSION: 3.32.0
+  FLUTTER_VERSION: 3.35.2
 
 jobs:
   test:
@@ -75,8 +75,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          distribution: "temurin"
+          java-version: "21"
 
       - name: Install pub dependencies
         run: flutter pub get

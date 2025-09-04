@@ -11,7 +11,7 @@ plugins {
 android {
     namespace = "com.IamPekka058.debbydebs"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -49,6 +49,24 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+
+    flavorDimensions += "default"
+    productFlavors {
+        create("development") {
+            dimension = "default"
+            applicationIdSuffix = ".dev"
+            resValue("string", "app_name", "DebbyDebs Dev")
+        }
+        create("staging") {
+            dimension = "default"
+            applicationIdSuffix = ".stg"
+            resValue("string", "app_name", "DebbyDebs Test")
+        }
+        create("production") {
+            dimension = "default"
+            resValue("string", "app_name", "DebbyDebs")
+        }
+}
 }
 
 flutter {

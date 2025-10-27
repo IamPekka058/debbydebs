@@ -122,26 +122,26 @@ jobs:
           mv build/app/outputs/bundle/${{ steps.build_options.outputs.flavor }}Release/app-${{ steps.build_options.outputs.flavor }}-release.aab ../build-artifacts/DebbyDebs_${{ steps.build_options.outputs.version_name }}.aab
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: DebbyDebs ${{ steps.build_options.outputs.version_name }} APK
           path: build-artifacts/DebbyDebs_${{ steps.build_options.outputs.version_name }}.apk
 
       - name: Upload app bundle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: DebbyDebs ${{ steps.build_options.outputs.version_name }} AAB
           path: build-artifacts/DebbyDebs_${{ steps.build_options.outputs.version_name }}.aab
 
       - name: Upload symbols file
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: DebbyDebs ${{ steps.build_options.outputs.version_name }} Symbols
           path: app/build/app/symbols
 
       - name: Upload size analysis apk
         if: contains(github.event.pull_request.labels.*.name, '🧐 Size Analysis')
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Size Analysis APK ARM64
           path: /home/runner/.flutter-devtools/apk-code-size-analysis_01.json
@@ -178,12 +178,12 @@ jobs:
 
     steps:
       - name: Download APK artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: DebbyDebs_${{ needs.build.outputs.version_name }}.apk
 
       - name: Download app bundle artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: DebbyDebs_${{ needs.build.outputs.version_name }}.aab
 

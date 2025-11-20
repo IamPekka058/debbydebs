@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout App Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           path: app
 
@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Checkout app repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           path: app
 
